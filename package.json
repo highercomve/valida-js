@@ -1,6 +1,6 @@
 {
   "name": "valida-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Object validation with Javascript",
   "repository": "https://github.com/highercomve/valida-js",
   "author": "Sergio Marin",
@@ -54,8 +54,8 @@
     "jest-environment-enzyme": "^7.0.1",
     "jest-enzyme": "^7.0.1",
     "parcel-bundler": "^1.11.0",
-    "react-dom": "^16.8.1",
-    "react": "^16.8.1"
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
   },
   "dependencies": {
     "lodash.get": "^4.4.2"
