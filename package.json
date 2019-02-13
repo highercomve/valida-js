@@ -17,7 +17,8 @@
   "scripts": {
     "dev": "parcel example/index.html",
     "build": "babel src -d lib",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "jest": {
     "transform": {
