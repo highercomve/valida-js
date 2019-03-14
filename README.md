@@ -53,9 +53,9 @@ The library has available this validators
 But you can extend with your own validators, using the next signature
 
 ```js
-import { validators, factoryValidationObj } from 'valida-js'
+import ValidaJS from 'valida-js'
 
-validators['newRuleName'] = (stateMap, type, name, compareWithValue, defaultValue = '') => {
+ValidaJS.validators['newRuleName'] = (stateMap, type, name, compareWithValue, defaultValue = '') => {
   return (state) => {
     const isValid = !!state[stateMap] // Any type of validation here
     /**
@@ -65,7 +65,7 @@ validators['newRuleName'] = (stateMap, type, name, compareWithValue, defaultValu
      * @param {string} name
      * @return {Object}
      * */
-    return factoryValidationObj(isValid, type, name)
+    return ValidaJS.factoryValidationObj(isValid, type, name)
   }
 }
 
