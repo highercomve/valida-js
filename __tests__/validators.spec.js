@@ -69,5 +69,9 @@ describe('Validators spec', () => {
     result = Validators.isEmail('email', 'email-valid', 'key')({ email: 'algo@algo.com.ar' })
     expect(result.valid).toBe(true)
     expect(result.error).toBe(undefined)
+
+    result = Validators.isEmail('email', 'email-valid', 'key')({ email: 'algo@algo.co' })
+    expect(result.valid).toBe(true)
+    expect(result.error).toBe(undefined)
   })
 })
