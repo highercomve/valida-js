@@ -1,3 +1,5 @@
+[![Codeship Status for highercomve/valida-js](https://app.codeship.com/projects/f3b1bef0-69f5-0137-cfd5-3699c784bbf0/status?branch=master)](https://app.codeship.com/projects/346266)
+
 Valida JS
 ==========================================
 
