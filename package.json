@@ -25,7 +25,6 @@
       "^.+\\.js$": "<rootDir>/config/jest.transform.js"
     },
     "setupFilesAfterEnv": [
-      "./node_modules/jest-enzyme/lib/index.js",
       "<rootDir>/config/jest.config.js"
     ]
   },
