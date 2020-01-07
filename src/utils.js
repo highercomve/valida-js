@@ -42,6 +42,8 @@
  * @typedef {Object} rules
 */
 
+import { defaultMessage } from './messages'
+
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
@@ -65,12 +67,13 @@ function ruleCreator (validators, description) {
   const key = description.name
   if (description.validate) {
     return (state) => {
-      return factoryValidationObj(description.validate(state), type, key)
+      const message = description.message ? description.message(state, type, key) : defaultMessage(state, type, key)
+      return factoryValidationObj(description.validate(state), type, key, message)
     }
   }
   const validate = validators[description.type]
-    ? validators[description.type](description.stateMap, type, key, description.compareWith, description.defaultValue)
-    : validators.required(description.stateMap, type, key, description.compareWith, description.defaultValue)
+    ? validators[description.type](description.stateMap, type, key, description.compareWith, description.defaultValue, description.message)
+    : validators.required(description.stateMap, type, key, description.compareWith, description.defaultValue, description.message)
   return validate
 }
 
@@ -106,11 +109,18 @@ export function validate (rules = [], state, previus = { valid: true, errors: {}
     results.valid = results.valid && appliedRule.valid
     if (appliedRule.error) {
       results.errors[appliedRule.error.key] = results.errors[appliedRule.error.key]
-        ? results.errors[appliedRule.error.key].concat([appliedRule.error.type])
-        : [appliedRule.error.type]
+        ? results.errors[appliedRule.error.key].concat([buildError(appliedRule.error)])
+        : [buildError(appliedRule.error)]
     }
     return results
   }, previus)
+}
+
+function buildError (error) {
+  return {
+    type: error.type,
+    message: error.message
+  }
 }
 
 /**
@@ -120,12 +130,16 @@ export function validate (rules = [], state, previus = { valid: true, errors: {}
  * @param {String} key
  * @returns {validationObj}
  */
-export function factoryValidationObj (valid = false, type, key) {
+export function factoryValidationObj (valid = false, type, key, message = '') {
   if (!type || !key) {
     throw new Error('type and key are required')
   }
   return {
     valid: Boolean(valid),
-    error: valid ? undefined : { key, type }
+    error: valid ? undefined : {
+      key,
+      type,
+      message
+    }
   }
 }

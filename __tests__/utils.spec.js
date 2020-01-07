@@ -34,7 +34,8 @@ describe('Utils spec', () => {
       {
         name: 'firstName',
         type: 'customLength',
-        validate: (state) => Object.keys(state).length > 1
+        validate: (state) => Object.keys(state).length > 1,
+        message: (value, type, key) => `${key} should be greater than 1`
       }
     ])
     expect(rules.FirstNameRequired).toBeDefined()
@@ -42,11 +43,11 @@ describe('Utils spec', () => {
     expect(rules.FirstNameCustomLength).toBeDefined()
 
     expect(rules.FirstNameRequired({ firstName: '' }))
-      .toEqual({ valid: false, error: { type: 'required', key: 'firstName' } })
+      .toEqual({ valid: false, error: { type: 'required', key: 'firstName', message: 'firstName is required' } })
     expect(rules.LastNameRequired({ lastName: '' }))
-      .toEqual({ valid: false, error: { type: 'required', key: 'lastName' } })
+      .toEqual({ valid: false, error: { type: 'required', key: 'lastName', message: 'lastName is required' } })
     expect(rules.FirstNameCustomLength({}))
-      .toEqual({ valid: false, error: { type: 'customLength', key: 'firstName' } })
+      .toEqual({ valid: false, error: { type: 'customLength', key: 'firstName', message: 'firstName should be greater than 1' } })
     expect(rules.FirstNameRequired({ firstName: 'algo' }))
       .toEqual({ valid: true, error: undefined })
     expect(rules.LastNameRequired({ lastName: 'algo' }))
@@ -75,7 +76,10 @@ describe('Utils spec', () => {
     ])
     const validation = Utils.validate(rules, { firstName: '', email: '' })
     expect(validation.valid).toBe(false)
-    expect(validation.errors.firstName).toEqual(['required'])
-    expect(validation.errors.email).toEqual(['required', 'isEmail'])
+    expect(validation.errors.firstName).toEqual([{ type: 'required', message: 'firstName is required' }])
+    expect(validation.errors.email).toEqual([
+      { type: 'required', message: 'email is required' },
+      { type: 'isEmail', message: ' should be an email' }
+    ])
   })
 })
